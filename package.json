@@ -1,14 +1,15 @@
 {
-	"name": "polygon-utils",
-	"version": "1.0.0",
-	"description": "",
+	"name": "@bigous/polygon-utils",
+	"version": "0.0.1",
+	"description": "polygon-utils goal is to define some useful polygon functions",
 	"scripts": {
 		"test": "jest --no-cache",
 		"dev": "nodemon --watch \"src\" --exec \"npm test\" -e ts",
 		"build": "tsc --build tsconfig.json"
 	},
-	"author": "",
-	"license": "ISC",
+	"author": "Richard Natal",
+	"homepage": "https://github.com/Bigous/polygon-utils",
+	"license": "MIT",
 	"dependencies": {},
 	"devDependencies": {
 		"@types/jest": "^26.0.0",
@@ -18,6 +19,11 @@
 		"ts-node": "^8.10.2",
 		"typescript": "^3.9.5"
 	},
+	"main": "dist/library.js",
+	"keywords": [
+		"polygon",
+		"util"
+	],
 	"jest": {
 		"transform": {
 			"^.+\\.ts$": "ts-jest"
