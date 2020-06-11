@@ -22,9 +22,9 @@ $6371000 \times 2 \times atan2(\sqrt{ \sin^2{\frac{\Delta lat \times \frac{\pi}{
 
 So... Have fun ;)
 
-PS: If you need a more sofisticated and complete library, I'd recommend using [flatten-js](https://github.com/alexbol99/flatten-js). It's really nice and well documented. I've done this because I wanted it to be simple and fast for my pourposes (and for fun :) ). You can compare the [ray_soot](https://github.com/alexbol99/flatten-js/blob/7323efb9c8f931885e273aacaef15bfb532828da/src/algorithms/ray_shooting.js#L14) from flatten and [mine]() to understand what I mean.
+PS: If you need a more sofisticated and complete library, I'd recommend using [flatten-js](https://github.com/alexbol99/flatten-js). It's really nice and well documented. I've done this because I wanted it to be simple and fast for my pourposes (and for fun :) ). You can compare the [ray_soot](https://github.com/alexbol99/flatten-js/blob/7323efb9c8f931885e273aacaef15bfb532828da/src/algorithms/ray_shooting.js#L14) from flatten and [mine](src/geometry.ts#L43) to understand what I mean.
 
-License MIT
+[License MIT](LICENSE)
 
 @author [Richard Natal - Bigous](https://bigous.dev)
 
