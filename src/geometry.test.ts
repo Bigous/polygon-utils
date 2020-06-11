@@ -4,7 +4,7 @@ import util from "util";
 describe("isInsideBox", () => {
 	let box: Box2D = { minX: -1, minY: -1, maxX: 1, maxY: 1 };
 
-	describe("Givin box " + util.inspect(box, false, null, true), () => {
+	describe(`Givin box ${ util.inspect(box, false, null, true) }`, () => {
 		let points = [
 			{ x: 0, y: 0 }, // meio do box
 			{ x: -1, y: -1 }, // vertice do box
@@ -31,14 +31,14 @@ describe("isInsideBox", () => {
 		for (let i = 0; i < points.length; i++) {
 			let p = points[i];
 			let s = shouldBe[i];
-			test('P ' + util.inspect(p, false, null, true) + ' should be ' + util.inspect((s ? 'inside' : 'outside'), false, null, true) + ' the box.', () => {
+			test(`P ${util.inspect(p, false, null, true)} should be ${(s ? "inside" : "outside")} the box.`, () => {
 				expect(isInsideBox(box, p)).toBe(s);
 			});
 		}
 	});
 });
 
-describe('isInsidePolygon', () => {
+describe("isInsidePolygon", () => {
 	// losango
 	let poly: Polygon2D = {
 		vertexes: [
@@ -52,7 +52,7 @@ describe('isInsidePolygon', () => {
 		}
 	};
 
-	describe('Given polygon losango' + util.inspect(poly, false, null, true), () => {
+	describe(`Given polygon losango ${ util.inspect(poly, false, null, true) }`, () => {
 		let points = [
 			{ x: 0, y: 0 }, // meio do losango
 			{ x: -1, y: -1 }, // dentro do box, mas fora do losango
@@ -63,6 +63,7 @@ describe('isInsidePolygon', () => {
 			{ x: 1, y: 1 }, // extremidade do box, mas fora do losango
 			{ x: 0.2, y: 0.2 }, // dentro do losango
 			{ x: 0.8, y: 0.8 }, // fora do losango
+			{ x: 5, y: 5}, // Fora do bouding box
 		];
 
 		let shouldBe = [
@@ -75,12 +76,13 @@ describe('isInsidePolygon', () => {
 			false, // extremidade do box, mas fora do losango
 			true, // dentro do losango
 			false, // fora do losango
+			false, // fora do bouding box
 		];
 
 		for (let i = 0; i < points.length; i++) {
 			let p = points[i];
 			let s = shouldBe[i];
-			test('P ' + util.inspect(p, false, null, true) + ' should be ' + util.inspect((s ? 'inside' : 'outside'), false, null, true) + ' the polygon.', () => {
+			test(`P ${util.inspect(p, false, null, true)} should be ${(s ? "inside" : "outside")} the polygon.`, () => {
 				expect(isInsidePolygon(poly, p)).toBe(s);
 			});
 		}

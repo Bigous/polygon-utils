@@ -50,7 +50,9 @@ export function isInsidePolygon(polygon: Polygon2D, point: Vector2D): boolean {
 
 	for (let i = 0; i < numPoints; i++) {
 		let cp = polygon.vertexes[i];
-		if (cp.x == p.x && cp.y == p.y) return true; // se o ponto for sobre um vertice, está no polígono por definição.
+		if (cp.x == p.x && cp.y == p.y) {
+			return true; // se o ponto for sobre um vertice, está no polígono por definição.
+		}
 
 		let i1 = (i < numPoints - 1) ? i + 1 : 0;
 		let np = polygon.vertexes[i1];
