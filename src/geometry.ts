@@ -1,10 +1,10 @@
-export interface Vector2D {
+export interface Point2D {
 	x: number;
 	y: number;
 }
 
 export interface Circle2D {
-	center: Vector2D;
+	center: Point2D;
 	radius: number;
 }
 
@@ -20,7 +20,7 @@ export interface shape {
 }
 
 export interface Polygon2D extends shape {
-	vertexes: Array<Vector2D>;
+	vertexes: Array<Point2D>;
 }
 
 /**
@@ -29,7 +29,7 @@ export interface Polygon2D extends shape {
  * @param point Point to verify against.
  * @returns true if the point is inside the box, false otherwise.
  */
-export function isInsideBox(box: Box2D, point: Vector2D): boolean {
+export function isInsideBox(box: Box2D, point: Point2D): boolean {
 	return (box.minX <= point.x && box.minY <= point.y) && (box.maxX >= point.x && box.maxY >= point.y);
 }
 
@@ -40,7 +40,7 @@ export function isInsideBox(box: Box2D, point: Vector2D): boolean {
  * @returns true if the point is inside the polygon, false otherwise.
  * @description It uses creates an imaginary line from the point to the infinity right and counts the number of intersections it has with the polygon edges. If its an odd number, the point is inside the polygon.
  */
-export function isInsidePolygon(polygon: Polygon2D, point: Vector2D): boolean {
+export function isInsidePolygon(polygon: Polygon2D, point: Point2D): boolean {
 	if (!isInsideBox(polygon.boudingBox, point))
 		return false;
 
