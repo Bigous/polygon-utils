@@ -22,7 +22,7 @@ export function getMaxCircles(area: Polygon2D, redius: number): Array<Point2D> {
 	return ret;
 }
 
-export function getOptimalPumps(area: Polygon2D, minRadius: number, maxRadius: number, superposition: boolean = false, overlapPolygon: boolean = false): Array<Point2D> {
+export function getOptimalCircles(area: Polygon2D, minRadius: number, maxRadius: number, superposition: boolean = false, overlapPolygon: boolean = false): Array<Point2D> {
 	let ret = Array<Point2D>();
 
 	return ret;
