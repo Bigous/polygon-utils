@@ -1,0 +1,35 @@
+{
+	"name": "polygon-utils",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"test": "jest --no-cache",
+		"dev": "nodemon --watch \"src\" --exec \"npm test\" -e ts",
+		"build": "tsc --build tsconfig.json"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {},
+	"devDependencies": {
+		"@types/jest": "^26.0.0",
+		"jest": "^26.0.1",
+		"nodemon": "^2.0.4",
+		"ts-jest": "^26.1.0",
+		"ts-node": "^8.10.2",
+		"typescript": "^3.9.5"
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.ts$": "ts-jest"
+		},
+		"testRegex": "\\.test\\.ts",
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"jsx",
+			"json",
+			"node"
+		]
+	}
+}
