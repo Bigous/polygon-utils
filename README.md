@@ -39,4 +39,6 @@ https://wiki.mcneel.com/developer/sdksamples/2dcirclepacking
 
 https://tobias-schwinn.net/2010/02/15/circlepacking-within-curve-boundary/
 
+https://www.geeksforgeeks.org/geometric-algorithms/
+
 -->
