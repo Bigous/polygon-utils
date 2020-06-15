@@ -4,7 +4,7 @@ import util from "util";
 describe("isInsideBox", () => {
 	let box: Box2D = { minX: -1, minY: -1, maxX: 1, maxY: 1 };
 
-	describe(`Givin box ${ util.inspect(box, false, null, true) }`, () => {
+	describe(`Givin box ${util.inspect(box, false, null, true)}`, () => {
 		let points = [
 			{ x: 0, y: 0 }, // meio do box
 			{ x: -1, y: -1 }, // vertice do box
@@ -52,7 +52,7 @@ describe("isInsidePolygon", () => {
 		}
 	};
 
-	describe(`Given polygon losango ${ util.inspect(poly, false, null, true) }`, () => {
+	describe(`Given polygon losango ${util.inspect(poly, false, null, true)}`, () => {
 		let points = [
 			{ x: 0, y: 0 }, // meio do losango
 			{ x: -1, y: -1 }, // dentro do box, mas fora do losango
@@ -63,7 +63,7 @@ describe("isInsidePolygon", () => {
 			{ x: 1, y: 1 }, // extremidade do box, mas fora do losango
 			{ x: 0.2, y: 0.2 }, // dentro do losango
 			{ x: 0.8, y: 0.8 }, // fora do losango
-			{ x: 5, y: 5}, // Fora do bouding box
+			{ x: 5, y: 5 }, // Fora do bouding box
 		];
 
 		let shouldBe = [
