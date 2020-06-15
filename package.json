@@ -10,14 +10,18 @@
 	"author": "Richard Natal",
 	"homepage": "https://github.com/Bigous/polygon-utils",
 	"license": "MIT",
-	"dependencies": {},
+	"dependencies": {
+		"@types/geojson": "^7946.0.7"
+	},
 	"devDependencies": {
 		"@types/jest": "^26.0.0",
+		"@types/utm": "^1.1.1",
 		"jest": "^26.0.1",
 		"nodemon": "^2.0.4",
 		"ts-jest": "^26.1.0",
 		"ts-node": "^8.10.2",
-		"typescript": "^3.9.5"
+		"typescript": "^3.9.5",
+		"utm": "^1.1.1"
 	},
 	"main": "dist/library.js",
 	"files": [
