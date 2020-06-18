@@ -71,10 +71,46 @@ describe("getFillCirclesFromEdge", () => {
 	describe(`Giving polygon ${util.inspect(poly, false, null, true)}`, () => {
 		test(`Radius 0.2`, () => {
 			let verify = getFillCirclesFromEdge(poly, 0.2);
-			expect(verify).toHaveLength(1);
+			expect(verify).toHaveLength(15);
 		});
 		test(`Radius 0.5`, () => {
 			let verify = getFillCirclesFromEdge(poly, 0.5);
+			expect(verify).toHaveLength(3);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getFillCirclesFromEdge(poly, 1.0);
+			expect(verify).toHaveLength(1);
+		});
+	});
+
+	// Octogono
+	let polyO: Polygon2D = {
+		vertexes: [
+			{ x: 0.5, y: 1.0 },
+			{ x: 1.0, y: 0.5 },
+			{ x: 1.0, y: -0.5 },
+			{ x: 0.5, y: -1.0 },
+			{ x: -0.5, y: -1.0 },
+			{ x: -1.0, y: -0.5 },
+			{ x: -1.0, y: 0.5 },
+			{ x: -0.5, y: 1.0}
+		],
+		boudingBox: {
+			minX: -1, minY: -1, maxX: 1, maxY: 1
+		}
+	};
+
+	describe(`Giving polygon ${util.inspect(polyO, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getFillCirclesFromEdge(polyO, 0.2);
+			expect(verify).toHaveLength(23);
+		});
+		test(`Radius 0.5`, () => {
+			let verify = getFillCirclesFromEdge(polyO, 0.5);
+			expect(verify).toHaveLength(4);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getFillCirclesFromEdge(poly, 1.0);
 			expect(verify).toHaveLength(1);
 		});
 	});

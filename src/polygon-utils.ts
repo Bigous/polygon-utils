@@ -58,6 +58,10 @@ export function getBeeCircles(area: Polygon2D, radius: number): Array<Point2D> {
 	return ret;
 }
 
+function isInsideCircle(p: Point2D, radius: number, pt: Point2D): boolean {
+	return Math.sqrt((p.x - pt.x) ** 2 + (p.y - pt.y) ** 2) <= radius;
+}
+
 export function getFillCirclesFromEdge(area: Polygon2D, radius: number): Array<Point2D> {
 	let ret = Array<Point2D>();
 	// pega o ponto inicial e seus adjacentes
@@ -70,10 +74,10 @@ export function getFillCirclesFromEdge(area: Polygon2D, radius: number): Array<P
 	let v2 = { x: p2.x - op.x, y: p2.y - op.y };
 
 	// descobre o angulo entre os vetores
-	let m1 = Math.sqrt(v1.x**2 + v1.y**2);
-	let m2 = Math.sqrt(v2.x**2 + v2.y**2);
+	let m1 = Math.sqrt(v1.x ** 2 + v1.y ** 2);
+	let m2 = Math.sqrt(v2.x ** 2 + v2.y ** 2);
 	let a_v1_v2 = Math.acos((v1.x * v2.x + v1.y * v2.y) / (m1 + m2)); // angulo em radianos entre os 2 vetores
-	let a_v1_o  = Math.atan2(v1.x, v1.y); // angulo do vetor 1 em relação ao eixo x
+	let a_v1_o = Math.atan2(v1.x, v1.y); // angulo do vetor 1 em relação ao eixo x
 	let a_pc1_o = a_v1_v2 / 2 + a_v1_o;
 
 	// calcula o primeiro centro de circulo dentro do polígono
@@ -82,11 +86,65 @@ export function getFillCirclesFromEdge(area: Polygon2D, radius: number): Array<P
 		y: op.y - radius * Math.sin(a_pc1_o / 2)
 	};
 
-	if(isInsidePolygon(area, pc1)) {
+	// Se não estiver dentro, o polígono é pro outro lado
+	if (isInsidePolygon(area, pc1)) {
 		ret.push(pc1);
+	} else {
+		a_pc1_o += Math.PI;
+		pc1 = {
+			x: op.x - radius * Math.cos(a_pc1_o / 2),
+			y: op.y - radius * Math.sin(a_pc1_o / 2)
+		};
+		// se está, segue o jogo
+		if (isInsidePolygon(area, pc1)) {
+			ret.push(pc1);
+		} else {
+			// se não está,
+			// o polígono é muito pequeno. Pega o baricentro e testa de novo...
+			pc1 = area.vertexes.reduce((pSum, pCurr) => {
+				return { x: pSum.x + pCurr.x, y: pSum.y + pCurr.y };
+			});
+
+			if (isInsidePolygon(area, pc1)) {
+				ret.push(pc1);
+			} else {
+				return ret;
+			}
+		}
 	}
 
-	// TODO: #3 Now that we have the first point, we should go mapping the nearest circles with Bee pattern and see if it's inside the poligon and not inside a previous circle. When no neighbor fills the condition, we can say that it's safe to stop filling.
+	let alreadyInTheList = (p: Point2D, list: Array<Point2D> = ret): boolean => {
+		for(let pt of list) {
+			if (isInsideCircle(p, radius, pt)) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	let getCircleNeighborsInsidePolygon = (pts: Array<Point2D>, startAngle: number = 0.0): Array<Point2D> => {
+		let neigbors = Array<Point2D>();
+		let arc = Math.PI / 3;
+		for (let p of pts) {
+			for (let i = 0; i < 6; i++) {
+				let angle = startAngle + arc * i;
+				let add = {
+					x: p.x + radius * 2 * Math.cos(angle),
+					y: p.y + radius * 2 * Math.sin(angle)
+				};
+				if (!alreadyInTheList(add, neigbors) && !alreadyInTheList(add, ret) && isInsidePolygon(area, add)) {
+					neigbors.push(add);
+				}
+			}
+		}
+		return neigbors;
+	};
+
+	let neigbors = getCircleNeighborsInsidePolygon([pc1], a_pc1_o);
+	while (neigbors.length > 0) {
+		ret.push(...neigbors);
+		neigbors = getCircleNeighborsInsidePolygon(neigbors, a_pc1_o);
+	}
 
 	return ret;
 }
