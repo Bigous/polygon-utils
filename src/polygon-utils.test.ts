@@ -1,8 +1,8 @@
-import { getParallelCircles, getBeeCircles, getFillCirclesFromEdge } from "./polygon-utils";
+import { getParallelCirclesInsidePolygon, getBeeCirclesInsidePolygon } from "./polygon-utils";
 import { Polygon2D } from "./geometry";
 import util from "util";
 
-describe("getParallelCircles", () => {
+describe("getParallelCirclesInsidePolygon", () => {
 	// losango
 	let poly: Polygon2D = {
 		vertexes: [
@@ -16,19 +16,102 @@ describe("getParallelCircles", () => {
 		}
 	};
 
-	describe(`Giving polygon ${util.inspect(poly, false, null, true)}`, () => {
+	describe(`Giving poly ${util.inspect(poly, false, null, true)}`, () => {
 		test(`Radius 0.2`, () => {
-			let verify = getParallelCircles(poly, 0.2);
-			expect(verify).toHaveLength(13);
+			let verify = getParallelCirclesInsidePolygon(poly, 0.2);
+			expect(verify).toHaveLength(16);
 		});
 		test(`Radius 0.5`, () => {
-			let verify = getParallelCircles(poly, 0.5);
-			expect(verify).toHaveLength(2);
+			let verify = getParallelCirclesInsidePolygon(poly, 0.5);
+			expect(verify).toHaveLength(4);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getParallelCirclesInsidePolygon(poly, 1.0);
+			expect(verify).toHaveLength(1);
+		});
+	});
+
+	// losango inverso
+	let polyi: Polygon2D = {
+		vertexes: [
+			{ x: 0, y: 1 },
+			{ x: -1, y: 0 },
+			{ x: 0, y: -1 },
+			{ x: 1, y: 0 },
+		],
+		boudingBox: {
+			minX: -1, minY: -1, maxX: 1, maxY: 1
+		}
+	};
+
+	describe(`Giving polyi ${util.inspect(polyi, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyi, 0.2);
+			expect(verify).toHaveLength(16);
+		});
+		test(`Radius 0.5`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyi, 0.5);
+			expect(verify).toHaveLength(4);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyi, 1.0);
+			expect(verify).toHaveLength(1);
+		});
+	});
+
+	let polyPoint: Polygon2D = {
+		vertexes: [
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 }
+		],
+		boudingBox: {
+			minX: 0, minY: 1, maxX: 0, maxY: 1
+		}
+	};
+
+	describe(`Giving polyPoint ${util.inspect(polyPoint, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyPoint, 0.2);
+			expect(verify).toHaveLength(0);
+		});
+	});
+
+	// Octogono
+	let polyO: Polygon2D = {
+		vertexes: [
+			{ x: 0.5, y: 1.0 },
+			{ x: 1.0, y: 0.5 },
+			{ x: 1.0, y: -0.5 },
+			{ x: 0.5, y: -1.0 },
+			{ x: -0.5, y: -1.0 },
+			{ x: -1.0, y: -0.5 },
+			{ x: -1.0, y: 0.5 },
+			{ x: -0.5, y: 1.0 }
+		],
+		boudingBox: {
+			minX: -1, minY: -1, maxX: 1, maxY: 1
+		}
+	};
+
+	describe(`Giving polyO ${util.inspect(polyO, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyO, 0.2);
+			expect(verify).toHaveLength(24);
+		});
+		test(`Radius 0.5`, () => {
+			let verify = getParallelCirclesInsidePolygon(polyO, 0.5);
+			expect(verify).toHaveLength(4);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getParallelCirclesInsidePolygon(poly, 1.0);
+			expect(verify).toHaveLength(1);
 		});
 	});
 });
 
-describe("getBeeCircles", () => {
+describe("getBeeCirclesInsidePolygon", () => {
 	// losango
 	let poly: Polygon2D = {
 		vertexes: [
@@ -42,44 +125,81 @@ describe("getBeeCircles", () => {
 		}
 	};
 
-	describe(`Giving polygon ${util.inspect(poly, false, null, true)}`, () => {
+	describe(`Giving poly ${util.inspect(poly, false, null, true)}`, () => {
 		test(`Radius 0.2`, () => {
-			let verify = getBeeCircles(poly, 0.2);
-			expect(verify).toHaveLength(15);
+			let verify = getBeeCirclesInsidePolygon(poly, 0.2);
+			expect(verify).toHaveLength(14);
 		});
 		test(`Radius 0.5`, () => {
-			let verify = getBeeCircles(poly, 0.5);
-			expect(verify).toHaveLength(2);
-		});
-	});
-});
-
-describe("getFillCirclesFromEdge", () => {
-	// losango
-	let poly: Polygon2D = {
-		vertexes: [
-			{ x: 0, y: 1 },
-			{ x: 1, y: 0 },
-			{ x: 0, y: -1 },
-			{ x: -1, y: 0 }
-		],
-		boudingBox: {
-			minX: -1, minY: -1, maxX: 1, maxY: 1
-		}
-	};
-
-	describe(`Giving polygon ${util.inspect(poly, false, null, true)}`, () => {
-		test(`Radius 0.2`, () => {
-			let verify = getFillCirclesFromEdge(poly, 0.2);
-			expect(verify).toHaveLength(15);
-		});
-		test(`Radius 0.5`, () => {
-			let verify = getFillCirclesFromEdge(poly, 0.5);
+			let verify = getBeeCirclesInsidePolygon(poly, 0.5);
 			expect(verify).toHaveLength(3);
 		});
 		test(`Radius 1.0`, () => {
-			let verify = getFillCirclesFromEdge(poly, 1.0);
+			let verify = getBeeCirclesInsidePolygon(poly, 1.0);
 			expect(verify).toHaveLength(1);
+		});
+	});
+
+	// losango inverso
+	let polyi: Polygon2D = {
+		vertexes: [
+			{ x: 0, y: 1 },
+			{ x: -1, y: 0 },
+			{ x: 0, y: -1 },
+			{ x: 1, y: 0 },
+		],
+		boudingBox: {
+			minX: -1, minY: -1, maxX: 1, maxY: 1
+		}
+	};
+
+	describe(`Giving polyi ${util.inspect(polyi, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getBeeCirclesInsidePolygon(polyi, 0.2);
+			expect(verify).toHaveLength(14);
+		});
+		test(`Radius 0.5`, () => {
+			let verify = getBeeCirclesInsidePolygon(polyi, 0.5);
+			expect(verify).toHaveLength(3);
+		});
+		test(`Radius 1.0`, () => {
+			let verify = getBeeCirclesInsidePolygon(polyi, 1.0);
+			expect(verify).toHaveLength(1);
+		});
+	});
+
+	let polySame: Polygon2D = {
+		vertexes: [
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 },
+			{ x: 0, y: 1 }
+		],
+		boudingBox: {
+			minX: 0, minY: 1, maxX: 0, maxY: 1
+		}
+	};
+
+	describe(`Giving polyPoint ${util.inspect(polySame, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getBeeCirclesInsidePolygon(polySame, 0.2);
+			expect(verify).toHaveLength(0);
+		});
+	});
+
+	let polyPoint: Polygon2D = {
+		vertexes: [
+			{ x: 0, y: 1 }
+		],
+		boudingBox: {
+			minX: 0, minY: 1, maxX: 0, maxY: 1
+		}
+	};
+
+	describe(`Giving polyPoint ${util.inspect(polyPoint, false, null, true)}`, () => {
+		test(`Radius 0.2`, () => {
+			let verify = getBeeCirclesInsidePolygon(polyPoint, 0.2);
+			expect(verify).toHaveLength(0);
 		});
 	});
 
@@ -102,15 +222,15 @@ describe("getFillCirclesFromEdge", () => {
 
 	describe(`Giving polygon ${util.inspect(polyO, false, null, true)}`, () => {
 		test(`Radius 0.2`, () => {
-			let verify = getFillCirclesFromEdge(polyO, 0.2);
-			expect(verify).toHaveLength(23);
+			let verify = getBeeCirclesInsidePolygon(polyO, 0.2);
+			expect(verify).toHaveLength(26);
 		});
 		test(`Radius 0.5`, () => {
-			let verify = getFillCirclesFromEdge(polyO, 0.5);
+			let verify = getBeeCirclesInsidePolygon(polyO, 0.5);
 			expect(verify).toHaveLength(4);
 		});
 		test(`Radius 1.0`, () => {
-			let verify = getFillCirclesFromEdge(poly, 1.0);
+			let verify = getBeeCirclesInsidePolygon(poly, 1.0);
 			expect(verify).toHaveLength(1);
 		});
 	});
