@@ -1,19 +1,13 @@
 import { Polygon2D, Point2D, isInsidePolygon } from "./geometry";
 
-function isInsideCircle(p: Point2D, radius: number, pt: Point2D): boolean {
-	return Math.sqrt((p.x - pt.x) ** 2 + (p.y - pt.y) ** 2) <= radius;
-}
-
 function alreadyInTheList(p: Point2D, list: Array<Point2D>, radius: number): boolean {
-	for (let pt of list) {
-		if (isInsideCircle(p, radius, pt)) {
-			return true;
-		}
-	}
-	return false;
+	return list.some(pt => {
+		// Ponto está no circulo?
+		return Math.sqrt((p.x - pt.x) ** 2 + (p.y - pt.y) ** 2) <= radius;
+	});
 };
 
-function getCircleNeighbors(origin: Point2D, radius: number, arc:number=Math.PI/3, startAngle:number = 0): Array<Point2D> {
+function getCircleNeighbors(origin: Point2D, radius: number, arc: number = Math.PI / 3, startAngle: number = 0): Array<Point2D> {
 	let neigbors = Array<Point2D>();
 	let maxNeighbors = (Math.PI * 2) / arc;
 	for (let i = 0; i < maxNeighbors; i++) {
@@ -27,9 +21,9 @@ function getCircleNeighbors(origin: Point2D, radius: number, arc:number=Math.PI/
 	return neigbors;
 }
 
-export function getCirclesInsidePolygon(polygon: Polygon2D, radius: number, arc:number=Math.PI/3) {
+export function getCirclesInsidePolygon(polygon: Polygon2D, radius: number, arc: number = Math.PI / 3) {
 	let ret = Array<Point2D>();
-	if(polygon.vertexes.length < 3) {
+	if (polygon.vertexes.length < 3) {
 		return ret;
 	}
 	// pega o ponto inicial e seus adjacentes
@@ -74,9 +68,9 @@ export function getCirclesInsidePolygon(polygon: Polygon2D, radius: number, arc:
 	});
 	while (neigbors.length > 0) {
 		ret.push(...neigbors);
-		let nextIteration : Array<Point2D> = [];
-		for(let neighbor of neigbors) {
-			nextIteration.push( ...getCircleNeighbors(neighbor, radius, arc, a_v1).filter(x => {
+		let nextIteration: Array<Point2D> = [];
+		for (let neighbor of neigbors) {
+			nextIteration.push(...getCircleNeighbors(neighbor, radius, arc, a_v1).filter(x => {
 				return !alreadyInTheList(x, ret, radius) && !alreadyInTheList(x, nextIteration, radius) && isInsidePolygon(polygon, x);
 			}));
 		}
